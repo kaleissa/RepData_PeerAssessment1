@@ -1,25 +1,48 @@
 ---
-title: "Reproducible Research: Peer Assessment 1"
-output: 
+html_document: null
+keep_md: yes
+output:
   html_document:
-    keep_md: true
+    theme: cerulean
+title: 'Reproducible Research: Peer Assessment 1'
 ---
 
 
-## Loading and preprocessing the data
+##### Loading required R Packages
+  
+```{r, echo=TRUE}
+library("markdown")
+library("utils")
+library("ggplot2")
+library("stats")
+```
+
+
+##### Loading and preprocessing the data
+
+```{r, echo=TRUE}
+if(!exists("activity.csv")) {unzip("activity.zip")}
+if(!exists("ActivityData")) {ActivityData<<-read.csv("activity.csv")}
+ActivityData$date<-strptime(ActivityData$date, format = "%Y-%m-%d")
+head(ActivityData)
+```
 
 
 
-## What is mean total number of steps taken per day?
+##### What is mean total number of steps taken per day?
+```{r,echo=TRUE}
+
+
+```
 
 
 
-## What is the average daily activity pattern?
+##### What is the average daily activity pattern?
 
 
 
-## Imputing missing values
+##### Imputing missing values
 
 
 
-## Are there differences in activity patterns between weekdays and weekends?
+##### Are there differences in activity patterns between weekdays and weekends?
