@@ -50,7 +50,9 @@ StepsMedian<-round(median(Daily$steps))
 ##### What is the average daily activity pattern?
 
 ``````{r,echo=TRUE}
-
+intDaily<-aggregate(steps ~  interval, data = ActivityData, FUN=mean, na.rm=TRUE)
+plot(intDaily , type = "l", main="Average Steps / Interval", xlab="Average steps per interval")
+summary(intDaily)
 ```
 
 
