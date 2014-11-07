@@ -1,0 +1,37 @@
+David HoodCOMMUNITY TA· 4 days ago 
+Speaking as a community TA (a former student volunteering to be helpful) welcome to The Reproducible Research course. We will be doing some cool and useful stuff with workflow and document production. As a former student, here are a few points that I think are important:
+
+A histogram is not a bar plot. A bar plot uses the barplot command and takes two variables (the x and the y) a histogram uses the hist() command on a single variable to display the frequency of it's occurrences. This may seem an odd first point, but it is something in Peer Assignment 1 that has confused some people in the past.
+There is a difference between the older version of RStudio, and the new latest version. The older version lets you knit .rmarkdown documents into web pages, and creates a .md file in the process. A new version lets you knit web pages, PDFs, and Word documents, but does not automatically create a .md file in the process (you have to do something to formally create one, like use the knit2html command from the console, as it tells you to in the assignment 1 instructions (Note: Read the Assignment instructions when doing the assignment). The newest version will create the .md file with the right metadata tags or extra options ticked. To avoid version confusion the assignment asks you to create the files with knit2html from the console, as that will work with any version.
+there is a command called Sys.setlocale() which can be very handy for claiming to be in a country in which English days of the week are automatically used on graph axes. This may be useful to know for assignment 1.
+there is a command called Sys.setlocale() which may be very handy for people using Windows machines whose system trip over reading in the data file for assignment 2 because it contains something that is a special character in that region for Windows. You can just tell your computer to pretend to be in an English locale while reading in the file. This may be useful to know for assignment 2.
+People with Windows without curl and/or firewall/proxy issues will need to create an .RProfile file to get rubs uploaded, otherwise you will get a SSL error. The step by step for that is slightly to long for a single bullet point so I will cover this at the end of this post. This is more of a heads-up that it will be easily solvable if it effects your computer. This may important for assignment 2.
+Your life will be easier with one .rmd file per working directory, so that if you are caching parts and not naming them R will not get confused about which cache belongs to which .rmd file.
+That's basically all the technical problems in a few bullet points. but a couple of other things:
+
+the second assignment brings together a bunch of skills: reading data in, cleaning it, exploring it, and drawing some conclusions about general patterns. I think it makes a rather nice "see how far I've come" assignment for people who have done other data science courses leading into this one.
+as with all other courses the lecture files are on GitHub https://github.com/DataScienceSpecialization/courses, and the original files are .rmarkdown documents, so should suddenly be much more useful to you
+Note the new, and growing DSS Community site resource in the navigation options that people are contributing to.
+Now, the .Rprofile file
+To create a .Rprofile file can be a bit tricky as no suffix files starting with a . are invisible on most computer systems. I suggest using RStudio, with the working directory set to the folder with the .rmd file in it
+
+Use the File menu to make a New File -> Text File
+Put in options(rpubs.upload.method = "internal") and no other text at all
+Use the Save command and save it with the name .RProfile
+Quit RStudio, restart RStudio, make sure your working directory is set to the folder, then try to publish again.
+You can do the equivalent in Windows using the console (hat tip to Iman Tang for this tip) without actually creating the .Rprofile file.
+
+install packages("markdown")  
+library(markdown)  
+rpubsUpload(title, htmlFile, id = NULL, properties = list(), method = getOption("rpubs.upload.method", "internal"))
+Please note that the last part is also ("rpubs.upload.method", "internal") as others have mentioned.
+
+This "rpubsUpload" function returns a "continueURL". A browser can then be used to open this "continueURL" and finish up the publishing in RPubs. For details, please type "Upload an HTML file to RPubs" in the help section of Rstudio.
+
+If that doesn't work we can try more heavy duty things, in other threads.
+
+16votes received.· flag
+Paulo Cesar Ramalho BrandãoSignature Track· 3 days ago 
+Hey David! It's nice to hear from you again. I wouldn't manage to get through Getting and Cleaning Data course (last September) without the valuable tips and insights you gave everyone. All the best!
+
+0votes received.· flag
