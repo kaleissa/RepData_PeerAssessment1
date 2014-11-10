@@ -26,6 +26,7 @@ library("stats")
 if(!exists("activity.csv")) {unzip("activity.zip")}
 if(!exists("ActivityData")) {ActivityData<<-read.csv("activity.csv")}
 ActivityData$date<-strptime(ActivityData$date, format = "%Y-%m-%d")
+ActivityData$steps <- round(ActivityData$steps, digits = 0)
 head(ActivityData)
 ```
 
@@ -33,34 +34,70 @@ head(ActivityData)
 ```{r, echo=TRUE}
 Daily<-aggregate(steps ~ as.character(date), data = ActivityData, FUN=sum, na.rm=TRUE)
 hist(Daily$steps, xlab="Number of Steps", ylab="Number of Days", main= "Histogram - (Days/Steps)")
-
+abline(v=mean(Daily$steps),col=3,lty=5, )
+summary(Daily)
 ```
 
-##### What is mean total number of steps taken per day?
-##### What is median total number of steps taken per day?
-```{r,echo=TRUE}
-## Caluclates the mean total number of steps taken per day
-StepsMean<-round(mean(Daily$steps))
-## Caluclates the median number of steps taken per day
-StepsMedian<-round(median(Daily$steps))
-## Caluclates the Sample Standard Deviation of density of steps taken per day
-StepsSD<-sd(Daily$steps)
-
-```
 
 ##### As calculated  mean of steps  taken per day is 10766 and the median is 10765.
 
 ##### What is the average daily activity pattern?
 
 ``````{r,echo=TRUE}
-intDaily<-aggregate(steps ~  interval, data = ActivityData, FUN=mean, na.rm=TRUE)
+## creaes data table
+intDaily<-aggregate(steps ~  interval, data = ActivityData, FUN=mean, na.rm=TRUE) ## creaes data table
+intDaily$steps <- round(intDaily$steps, digits = 0)
+## creates a plot
 plot(intDaily , type = "l", main="Average Steps / Interval", xlab="Average steps per interval")
-summary(intDaily)
+MaxStepInterval<-intDaily[which.max(intDaily$steps),] ## to index the row containing first maximum of steps
+MaxStepInterval
+
+
+
 ```
 
 
 ##### Imputing missing values
 
+1. Calculate and report the total number of missing values in the dataset (i.e. the total number of rows with `NA`s)
+
+```{r, echo=TRUE}
+ActivityData$y <- ActivityData$stepa[is.na(ActivityData$steps)]
+LengthNA<-length(which(is.na(ActivityData$steps)==TRUE))
+isNA <- is.na(ActivityData$steps)
+
+```
+
+2. Devise a strategy for filling in all of the missing values in the dataset. The strategy does not need to be sophisticated. For example, you could use the mean/median for that day, or the mean for that 5-minute interval, etc.
+```{r, echo=TRUE}
+ActivityData$steps2<-ActivityData$steps
+
+```
+3. Create a new dataset that is equal to the original dataset but with the missing data filled in.
+```{r, echo=TRUE}
+
+```
+4. Make a histogram of the total number of steps taken each day and Calculate and report the **mean** and **median** total number of steps taken per day. Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?
+```{r,echo=TRUE}
+
+```
 
 
 ##### Are there differences in activity patterns between weekdays and weekends?
+
+For this part the `weekdays()` function may be of some help here. Use
+the dataset with the filled-in missing values for this part.
+
+1. Create a new factor variable in the dataset with two levels -- "weekday" and "weekend" indicating whether a given date is a weekday or weekend day.
+```{r}
+
+```
+1. Make a panel plot containing a time series plot (i.e. `type = "l"`) of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis). The plot should look something like the following, which was created using **simulated data**:
+
+![Sample panel plot](instructions_fig/sample_panelplot.png) 
+
+
+**Your plot will look different from the one above** because you will
+be using the activity monitor data. Note that the above plot was made
+using the lattice system but you can make the same version of the plot
+using any plotting system you choose
