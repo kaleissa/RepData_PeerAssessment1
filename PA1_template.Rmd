@@ -6,143 +6,100 @@ output:
     theme: cerulean
 title: 'Reproducible Research: Peer Assessment 1'
 ---
-## Introduction
-
-It is now possible to collect a large amount of data about personal
-movement using activity monitoring devices such as a
-[Fitbit](http://www.fitbit.com), [Nike
-Fuelband](http://www.nike.com/us/en_us/c/nikeplus-fuelband), or
-[Jawbone Up](https://jawbone.com/up). These type of devices are part of
-the "f"quantified sel movement -- a group of enthusiasts who take
-measurements about themselves regularly to improve their health, to
-find patterns in their behavior, or because they are tech geeks. But
-these data remain under-utilized both because the raw data are hard to
-obtain and there is a lack of statistical methods and software for
-processing and interpreting the data.
-
-This assignment makes use of data from a personal activity monitoring
-device. This device collects data at 5 minute intervals through out the
-day. The data consists of two months of data from an anonymous
-individual collected during the months of October and November, 2012
-and include the number of steps taken in 5 minute intervals each day.
-
-## Data
-
-The data for this assignment can be downloaded from the course web
-site:
-
-* Dataset: [Activity monitoring data](https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip) [52K]
-The variables included in this dataset are:
-
-* **steps**: Number of steps taking in a 5-minute interval (missing
-    values are coded as `NA`)
-
-* **date**: The date on which the measurement was taken in YYYY-MM-DD
-    format
-
-* **interval**: Identifier for the 5-minute interval in which
-    measurement was taken
-
-The dataset is stored in a comma-separated-value (CSV) file and there
-are a total of 17,568 observations in this
-dataset.
+## Assignment 1
 
 
-## Assignment
 
-This assignment will be described in multiple parts. You will need to
-write a report that answers the questions detailed below. Ultimately,
-you will need to complete the entire assignment in a **single R
-markdown** document that can be processed by **knitr** and be
-transformed into an HTML file.
+### Part 1 - Loading and preprocessing the data
 
-Throughout your report make sure you always include the code that you
-used to generate the output you present. When writing code chunks in
-the R markdown document, always use `echo = TRUE` so that someone else
-will be able to read the code. **This assignment will be evaluated via
-peer assessment so it is essential that your peer evaluators be able
-to review the code for your analysis**.
-
-For the plotting aspects of this assignment, feel free to use any
-plotting system in R (i.e., base, lattice, ggplot2)
-
-Fork/clone the [GitHub repository created for this
-assignment](http://github.com/rdpeng/RepData_PeerAssessment1). You
-will submit this assignment by pushing your completed files into your
-forked repository on GitHub. The assignment submission will consist of
-the URL to your GitHub repository and the SHA-1 commit ID for your
-repository state.
-
-NOTE: The GitHub repository also contains the dataset for the
-assignment so you do not have to download the data separately.
-
-### knit2html(input, output)
-### http://rpubs.com/KalEissa/39282
-
-### Loading and preprocessing the data
-
-```{r}
+```{r,echo=FALSE}
 ##### Loading required R Packages
 setwd("~/Coursera/RepData_PeerAssessment1")
-library("markdown", lib.loc="~/R/win-library/3.1")
-library("knitr", lib.loc="~/R/win-library/3.1")
-library("Amelia", lib.loc="~/R/win-library/3.1")
-library("utils")
-library("ggplot2")
-library("stats")
+require("markdown", lib.loc="~/R/win-library/3.1")
+require("knitr", lib.loc="~/R/win-library/3.1")
+require("Amelia", lib.loc="~/R/win-library/3.1")
+require("utils")
+require("ggplot2")
+require("stats")
 ```
 
 1. Load the data (i.e. `read.csv()`)
   
 ```{r, echo=TRUE}
-
 ##### Loading and preprocessing the data
 if(!exists("activity.csv")) {unzip("activity.zip")}
 if(!exists("ActivityData")) {ActivityData<<-read.csv("activity.csv")}
-
 ```
 
 
 2. Process/transform the data (if necessary) into a format suitable for your analysis
 ```{r,echo=TRUE}
-
 ## Processing and Transforming data.
-ActivityData$DateTime<-paste(ActivityData$date," ",(substr(as.character(ActivityData$interval+10000),2, 3)),":",(substr(as.character(ActivityData$interval+10000),4, 5)),sep = "")
-ActivityData$DateTime2<-strptime(ActivityData$DateTime,format = "%Y-%m-%d %H:%M")
-ActivityData$DOW<- format(ActivityData$DateTime2, "%A")
+## ActivityData$DateTime <-paste(ActivityData$date," ",(substr(as.character(ActivityData$interval+10000),2, 3)),":",(substr(as.character(ActivityData$interval+10000),4, 5)),sep = "")
+## ActivityData$DateTime2<-strptime(ActivityData$DateTime,format = "%Y-%m-%d %H:%M")
+## ActivityData$DOW<- format(ActivityData$DateTime2, "%A") # names of the day of week
+## ActivityData$DOM<-format(ActivityData$DateTime2, "%d") # numerical day of month
+## ActivityData$Hour<-format(ActivityData$DateTime2, "%H") # numerical Hour of day
+## ActivityData$DateTime <-NULL
+## ActivityData$Srank<-as.numeric(factor(ActivityData$steps))
+## ActivityData$Irank<-as.numeric(factor(ActivityData$interval))
+## ActivityData$x5<-(ActivityData$steps/5)
+## ActivityData$activity<-c("NA")
+## ActivityData$activity[(ActivityData$x5)==0]  <-c("Idle")
+## ActivityData$activity[(ActivityData$x5)>0 & (ActivityData$x5)<50]  <-c("Moderate")
+## ActivityData$activity[((ActivityData$x5)>=50) & ((ActivityData$x5)<100)]  <-c("walking")
+## ActivityData$activity[((ActivityData$x5)>=100) & ((ActivityData$x5)<120)] <-c("Jogging")
+## ActivityData$activity[((ActivityData$x5)>=120) & ((ActivityData$x5)<160)]  <-c("Running")
+## ActivityData$activity[((ActivityData$x5)>=160) & ((ActivityData$x5)<220)]  <-c("Danger")
+# lets search for a capitol in names weekdays
+## w<-grepl("S", ActivityData$DOW)
+## ActivityData$NDOW<-as.POSIXlt(ActivityData$date)$wda
+# then insert "weekend" or "weekday" into a character vector.
+## ActivityData$week[w]<-"weekend"
+## ActivityData$week[!w]<-"weekday"
+# then convert character vector to factor.
+## ActivityData$week<-as.factor(ActivityData$week)
+## ActivityData$Row<-row.names(ActivityData)
 head(ActivityData)
-View(ActivityData)
-write.csv(ActivityData,file="Activity2")
+
+
 ```
 
-### What is mean total number of steps taken per day?
 
-For this part of the assignment, you can ignore the missing values in
-the dataset.
+### Part 2 - What is mean total number of steps taken per day?
 
-1. Make a histogram of the total number of steps taken each day
-Creates Histogram
+1. For this part of the assignment, I ignore the missing values in
+the dataset and make a histogram of the total number of steps taken each day 
+with a thick red vertical line representing the mean of steps taken  and a dashed green line representing the medeian value of steps taken.
+
 ```{r,echo=TRUE}
-## This R code agg
+## This R code aggregates the sum of the total 
+## steps taken per day and ignores NA's
 DailyActivity<-aggregate(steps ~ as.character(date), data = ActivityData, FUN=sum, na.rm=TRUE)
-hist(DailyActivity$steps, xlab="Number of Steps", ylab="Number of Days", main= "Histogram Average Daily - (Steps)")
-abline(v=mean(DailyActivity$steps),col=1,lwd=10,lty=1, )
+## creates histogram using the base system.
+hist(DailyActivity$steps, xlab="Number of Steps", ylab="Number of Days", main="Histogram Average Daily - (Steps)")
+## Drows Mean and Median
+abline(v=mean(DailyActivity$steps),col=1,lwd=10,lty=1 )
 abline(v=median(DailyActivity$steps),col=2,lty=3, lwd=5)
+MDS<-round(mean(DailyActivity$steps),digits=0)
+MDDS<-round(median(DailyActivity$steps),digits=0)
+
 summary(DailyActivity)
 
 ```
 
-2. Calculate and report the **mean** and **median** total number of steps taken per day
+2. The Calculated  **mean** of sum steps taken/day is `10766` and the **median** is `10765`.
+
 ```{r,echo=TRUE}
 ## The Mean Number of steps taken per day.
 MeanDailySteps<-round(mean(DailyActivity$steps),digits=0)
 ## The Median Number of steps Taken per day
 medianDailySteps<-round(median(DailyActivity$steps),digits=0)
 ```
- As calculated  mean of steps  taken per day is 10766 and the median is 10765
+
 
 .
-### What is the average daily activity pattern?
+### Part 3 - What is the average daily activity pattern?
 
 1. Make a time series plot (i.e. `type = "l"`) of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
 ```{r,echo=TRUE}
@@ -177,24 +134,43 @@ LengthNA
 ```
 
 2. Devise a strategy for filling in all of the missing values in the dataset. The strategy does not need to be sophisticated. For example, you could use the mean/median for that day, or the mean for that 5-minute interval, etc.
+
+I struggled with this part of the assignment for several days. I tried repeatedly to use Amelea II, A program / R-package specifically intended for use in imputing missing time series data, however I was not able to use it properly. Then I triedd to VIM, another package for imputing missing values with no good imputations. Finally, i elected to simply make an attempt to fit the sample data to a gamma distribution as outlined in by Eric Cai at (https://chemicalstatistician.wordpress.com/2013/09/22/exploratory-data-analysis-quantile-quantile-plots-for-new-yorks-ozone-pollution-data/). I did manage to get a line that seemed to fit well enough to generate some random values for the step data. However, I was not able to allocate sufficent time to resolve some of the issues regarding what part of the day would have more or fewer values for steps. For instance there are fewer steps in at night than in the day. As it is my estimations make no considerations for day vs night or day of week. However they are estimations that I can live with for the now. 
+
 ```{r, echo=TRUE}
 
+## a col for imputed values
+ImputeActivity<-ActivityData[which(is.na(ActivityData$steps)==TRUE),1:3]
+TestActivity<-ActivityData[which(!is.na(ActivityData$steps)==TRUE),1:3]
+## use rgamma() to generate new values for steps2.
+steps = (ActivityData$steps) ## create a variable for steps
+steps = steps[!is.na(steps)] ### remove missing values from "steps"
+n = length(steps) ## find the number of non-missing values in "ozone"
+
+mean.steps = mean(steps) # calculate mean, 
+var.steps = var(steps)   #variance 
+sd.steps = sd(steps)      #and standard deviation of "ozone"
+ImputeActivity$steps <- round(rgamma(LengthNA, shape = mean.steps^2/var.steps, scale = var.steps/mean.steps),digits=0) 
+               
 
 ```
 3. Create a new dataset that is equal to the original dataset but with the missing data filled in.
 ```{r, echo=TRUE}
+ActivityFull<-rbind(ImputeActivity,TestActivity)
 
 ```
 4. Make a histogram of the total number of steps taken each day and Calculate and report the **mean** and **median** total number of steps taken per day. Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?
 ```{r,echo=TRUE}
 ## Makes a Histogram of totoal number of steps taken each day
-activityimp1 <- read.csv("activity1.csv")
-summary(activityimp1)
-Dailyimp<-aggregate(steps ~ as.character(date), data = activityimp1, FUN=sum, na.rm=TRUE)
-hist(Dailyimp$steps, xlab="Number of Steps", ylab="Number of Days", main= "Histogram imputed - (Days/Steps)")
-abline(v=mean(Dailyimp$steps),col=3,lty=5, )
-summary(Dailyimp)
+
+DailyFull<-aggregate(steps ~ as.character(date), data = ActivityFull, FUN=sum, na.rm=TRUE)
+hist(DailyFull$steps, xlab="Number of Steps", ylab="Number of Days", main= "Histogram Fully imputed - (Days/Steps)")
+
+abline(v=mean(DailyFull$steps),col=1,lwd=10,lty=1 )
+abline(v=median(DailyFull$steps),col=2,lty=3, lwd=5)
+summary(DailyFull)
 ```
+
 
 
 ##### Are there differences in activity patterns between weekdays and weekends?
@@ -205,26 +181,40 @@ the dataset with the filled-in missing values for this part.
 1. Create a new factor variable in the dataset with two levels -- "weekday" and "weekend" indicating whether a given date is a weekday or weekend day.
 ```{r,echo=TRUE}
 # lets search for a capitol in names weekdays
-w<-grepl("S", ActivityData$DOW)
-# then insert "weekend" or "weekday" into a character vector.
-ActivityData$week[w]<-"weekend"
-ActivityData$week[!w]<-"weekday"
-# then convert character vector to factor.
-ActivityData$week<-as.factor(ActivityData$week)
+ActivityFull$DateTime <-paste(ActivityFull$date," ",(substr(as.character(ActivityFull$interval+10000),2, 3)),":",(substr(as.character(ActivityFull$interval+10000),4, 5)),sep = "")
+ActivityFull$DateTime2<-strptime(ActivityFull$DateTime,format = "%Y-%m-%d %H:%M")
+ActivityFull$DOW<- format(ActivityFull$DateTime2, "%A") # names of the day of week
 
+w<-grepl("S", ActivityFull$DOW)
+# then insert "weekend" or "weekday" into a character vector.
+ActivityFull$week[w]<-"weekend"
+ActivityFull$week[!w]<-"weekday"
+# then convert character vector to factor.
+ActivityFull$week<-as.factor(ActivityFull$week)
+ActivityFull$steps2<-ActivityFull$steps
+ActivityFull$steps<-NULL
 ```
 1. Make a panel plot containing a time series plot (i.e. `type = "l"`) of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis). The plot should look something like the following, which was created using **simulated data**:
 ```{r, echo=TRUE}
+library(lattice)
 
 
+
+weekdayFull<-ActivityFull[w,]
+weekdayFull<-aggregate(steps2 ~ interval,data = weekdayFull, FUN=mean, na.rm=TRUE)
+weekdayFull$week<-"weekday"
+weekendFull<-ActivityFull[!w,]
+weekendFull<-aggregate(steps2 ~ interval,data = weekendFull, FUN=mean, na.rm=TRUE)
+weekendFull$week<-"weekend"
+weekly<-rbind(weekdayFull,weekendFull)
+attach(weekly)
+week.f<-factor(weekly,levels=c(1,2),
+   labels=c("Weekeday","weekend"))
+
+xyplot(steps2 ~ interval |week, type = "l",layout=c(1,2),
+    main="steps by interval for Weekend/Weekday", 
+   ylab="steps", xlab="interval")
 
 ```
 
 
-![Sample panel plot](instructions_fig/sample_panelplot.png) 
-
-
-**Your plot will look different from the one above** because you will
-be using the activity monitor data. Note that the above plot was made
-using the lattice system but you can make the same version of the plot
-using any plotting system you choose
