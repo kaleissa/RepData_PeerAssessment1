@@ -204,9 +204,15 @@ summary(DailyFull)
 ```
 ##  as.character(date)     steps      
 ##  Length:61          Min.   :   41  
+<<<<<<< HEAD
 ##  Class :character   1st Qu.: 8841  
 ##  Mode  :character   Median :11008  
 ##                     Mean   :10771  
+=======
+##  Class :character   1st Qu.: 8821  
+##  Mode  :character   Median :10765  
+##                     Mean   :10765  
+>>>>>>> 063da5329fb1e16e3966e3ccf14062514b15f7f0
 ##                     3rd Qu.:12883  
 ##                     Max.   :21194
 ```
@@ -256,10 +262,13 @@ attach(weekly)
 ## The following objects are masked from weekly (pos = 3):
 ## 
 ##     interval, steps2, week
+<<<<<<< HEAD
 ## 
 ## The following objects are masked from weekly (pos = 4):
 ## 
 ##     interval, steps2, week
+=======
+>>>>>>> 063da5329fb1e16e3966e3ccf14062514b15f7f0
 ```
 
 ```r
