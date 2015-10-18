@@ -15,9 +15,8 @@ title: 'Reproducible Research: Peer Assessment 1'
 ```{r,echo=FALSE}
 ##### Loading required R Packages
 setwd("~/GitHub/RepData_PeerAssessment1")
-require("markdown", lib.loc="~/R/win-library/3.1")
-require("knitr", lib.loc="~/R/win-library/3.1")
-require("Amelia", lib.loc="~/R/win-library/3.1")
+require("markdown")
+require("knitr")
 require("utils")
 require("ggplot2")
 require("stats")
